@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGeneratorsTable extends Migration
+class CreateResultsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateGeneratorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('generators', function (Blueprint $table) {
+        Schema::create('results', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('from');
-            $table->text('to');
             $table->text('score');
-            $table->text('total')->nullable();
+            $table->text('times');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateGeneratorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('generators');
+        Schema::dropIfExists('results');
     }
 }

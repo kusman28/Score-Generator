@@ -70,15 +70,15 @@
                     </div>
                 </div>
                 <div class="card mr-2">
-                    <h5 class="card-header">Date/Time</h5>
+                    <h5 class="card-header">Generated Date/Time</h5>
                     <div class="card-body">
                       <h1 class="card-title"><b>{{$generate->created_at}}</b></h1>
                     </div>
                 </div>
                 <div class="card mr-2">
-                    <h5 class="card-header">Generated Per Day</h5>
+                    <h5 class="card-header">Score Generated /day</h5>
                     <div class="card-body">
-                      <h1 class="card-title"><b>{{$generate->created_at}} Times</b></h1>
+                      <h1 class="card-title"><b>{{$generate->total}} Times</b></h1>
                     </div>
                 </div>
             </div>

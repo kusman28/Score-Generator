@@ -86,7 +86,7 @@
             <div class="content">
                 <div class="title m-b-md">
                     Score Generator
-                    <h5>Taktyl Examination</h5>
+                    <h5>Taktyl Examination | Khalid Usman</h5>
                 </div>
                 <div class="links">
                     <form method="POST" action="/api/scores">

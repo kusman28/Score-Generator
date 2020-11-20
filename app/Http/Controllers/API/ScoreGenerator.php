@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Generator;
+use App\Result;
 use Carbon\Carbon;
+use DB;
 
 class ScoreGenerator extends Controller
 {
@@ -27,18 +29,44 @@ class ScoreGenerator extends Controller
      */
     public function store(Request $request)
     {
-        $generate = new Generator();
+        $result = rand($request->input('from'), $request->input('to'));
+        $test = Generator::where('score', '=', $result)->first();
+        
 
-        $this->validate($request, [
-            'from' => 'required|numeric',
-            'to' => 'required|numeric'
-        ]);
+        if ($test === null) {
 
-        $generate->from = $request->input('from');
-        $generate->to = $request->input('to');
-        $generate->score = rand($request->input('from'), $request->input('to'));
+            $generate = new Generator();
 
-        $generate->save();
+            $this->validate($request, [
+                'from' => 'required|numeric',
+                'to' => 'required|numeric'
+            ]);
+
+            $generate->from = $request->input('from');
+            $generate->to = $request->input('to');
+            $generate->score = $result;
+            $generate->total = 1;
+
+            $generate->save();
+        } else {
+            $generate = new Generator();
+
+            $countTotal = Generator::all()->where('score', $result)->groupBy('total');
+            
+            $count = ($countTotal->count() + 1);
+
+            $this->validate($request, [
+                'from' => 'required|numeric',
+                'to' => 'required|numeric'
+            ]);
+
+            $generate->from = $request->input('from');
+            $generate->to = $request->input('to');
+            $generate->score = $result;
+            $generate->total = $count;
+
+            $generate->save();
+        }
 
         return view('result')->with('generate', $generate);
     }
@@ -84,11 +112,19 @@ class ScoreGenerator extends Controller
     }
 
     public function day() {
-        $test = Generator::selectRaw("count('id') as total, score")
-        ->groupBy('score')
-        ->whereDate('created_at', Carbon::today())
-        ->get();
+        // $test = \DB::table('generators')
+        //     ->select('generators.*',DB::raw('COUNT(total) as count'))
+        //     ->groupBy('total')
+        //     ->orderBy('count')
+        //     ->get();
+        // $test = Generator::selectRaw("count('id') as total, score")
+        // ->groupBy('score')
+        // ->whereDate('created_at', Carbon::today())
+        // ->get();
         // $test = Generator::whereDate('created_at', Carbon::today())->get();
+
+        // $test = Generator::all();
+        $test = Generator::all()->groupBy('total');
         return $test;
     }
 }
