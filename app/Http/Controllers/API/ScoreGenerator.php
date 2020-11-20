@@ -106,24 +106,10 @@ class ScoreGenerator extends Controller
     }
 
     public function result() {
-        $scores = Generator::latest('created_at')->first();
-        return view('result')->with('scores', $scores);
-        // return $scores;
-    }
+        return Generator::all();
+    }   
 
     public function day() {
-        // $test = \DB::table('generators')
-        //     ->select('generators.*',DB::raw('COUNT(total) as count'))
-        //     ->groupBy('total')
-        //     ->orderBy('count')
-        //     ->get();
-        // $test = Generator::selectRaw("count('id') as total, score")
-        // ->groupBy('score')
-        // ->whereDate('created_at', Carbon::today())
-        // ->get();
-        // $test = Generator::whereDate('created_at', Carbon::today())->get();
-
-        // $test = Generator::all();
         $test = Generator::all()->groupBy('total');
         return $test;
     }

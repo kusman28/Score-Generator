@@ -18,4 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResources(['scores' => 'API\ScoreGenerator']);
-Route::get('day', 'API\ScoreGenerator@day');
+
+Route::get('result/day', 'API\ScoreGenerator@day');
+Route::get('result/all', 'API\ScoreGenerator@result');
